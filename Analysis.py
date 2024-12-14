@@ -65,20 +65,17 @@ def newton_raphson_method(f, df, x0, tol, nmax):
 def construct_table(method1, method2, method3, method4):
     max_length = max(len(method1), len(method2), len(method3), len(method4))
 
-    # Extend lists to equal length with "..."
     method1.extend(["..."] * (max_length - len(method1)))
     method2.extend(["..."] * (max_length - len(method2)))
     method3.extend(["..."] * (max_length - len(method3)))
     method4.extend(["..."] * (max_length - len(method4)))
 
-    # Create the table rows
     rows = [
         ["Step", "Bisection", "Secant", "Iteration", "Newton-Raphson"]
     ]
     for i in range(max_length):
         rows.append([i] + [method1[i], method2[i], method3[i], method4[i]])
 
-    # Convert rows to a formatted string
     table = "\n".join(["\t".join(map(str, row)) for row in rows])
     return table
 
