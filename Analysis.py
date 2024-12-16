@@ -95,3 +95,32 @@ newton_results = newton_raphson_method(f, df, 1, 1e-7, 100)
 
 table = construct_table(bisection_results, secant_results, iteration_results, newton_results)
 print(table)
+
+def compute_true_root(f, method, *args):
+    results = method(f, *args, 1e-12, 1000)
+    return results[-1]
+
+def compute_errors(results, true_root):
+    final_approx = results[-1]
+    absolute_error = abs(final_approx - true_root)
+    relative_error = absolute_error / abs(true_root)
+    return absolute_error, relative_error
+
+true_root = compute_true_root(f, newton_raphson_method, df, 1)
+
+bisection_results = bisection_method(f, 1, 2, 1e-7, 100)
+secant_results = secant_method(f, 1.0, 1.5, 1e-7, 100)
+iteration_results = iteration_method(g, 1.5, 1e-7, 100)
+newton_results = newton_raphson_method(f, df, 1, 1e-7, 100)
+
+bisection_errors = compute_errors(bisection_results, true_root)
+secant_errors = compute_errors(secant_results, true_root)
+iteration_errors = compute_errors(iteration_results, true_root)
+newton_errors = compute_errors(newton_results, true_root)
+
+print(f"True root: {true_root:.12f}")
+print("\nMethod\t\tAbsolute Error\tRelative Error")
+print(f"Bisection\t{bisection_errors[0]:.7e}\t{bisection_errors[1]:.7e}")
+print(f"Secant\t\t{secant_errors[0]:.7e}\t{secant_errors[1]:.7e}")
+print(f"Iteration\t{iteration_errors[0]:.7e}\t{iteration_errors[1]:.7e}")
+print(f"Newton-Raphson\t{newton_errors[0]:.7e}\t{newton_errors[1]:.7e}")
